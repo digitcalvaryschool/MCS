@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta name="app-version" content="2026.11.09-S1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Student Portal</title>
+<meta name="theme-color" content="#0b2a5c">
+<link rel="manifest" href="manifest-student.webmanifest">
+<link rel="icon" href="icons/student-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="rc-card.css">
+<style>
+*{box-sizing:border-box}
+:root{--navy:#0b2a5c;--blue:#1976d2;--orange:#ef6c00;--green:#16a34a;--purple:#7c3aed;--red:#c62828;--bg:#eef2f7;--line:#e5e7eb;--text:#111827;--muted:#64748b;--frame:#1a4bb5;--cream:#fdf6d0}
+html{-webkit-tap-highlight-color:transparent}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);margin:0;color:var(--text);padding-bottom:96px}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;gap:10px}
+.top-left{display:flex;gap:10px;align-items:center;min-width:0}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e3f2fd;color:#0d47a1;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.welcome{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.pill{display:inline-block;background:#e8f5e9;color:#1b5e20;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:800;margin-top:3px}
+.top-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+.badge{background:#e8f5e9;color:#14532d;border:1px solid #a5d6a7;padding:5px 10px;border-radius:999px;font-weight:800;font-size:10.5px;min-width:90px;text-align:center}
+.btn-logout{background:var(--red);color:#fff;border:none;padding:8px 14px;border-radius:999px;font-weight:700;font-size:12px;cursor:pointer;min-height:34px}
+.wrap{max-width:760px;margin:12px auto;padding:0 12px}
+.box{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.06);border:1px solid #eef0f3;border-left:4px solid var(--navy);margin-bottom:12px}
+.title{font-size:17px;font-weight:800;color:var(--navy);margin:0 0 6px}
+.meta{font-size:12.5px;color:var(--muted);line-height:1.5}
+label{font-size:12px;font-weight:700;color:var(--navy);display:block;margin:10px 0 4px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit;min-height:46px;background:#fff}
+.btn{padding:12px 16px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;min-height:46px;color:#fff;width:100%}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.b-blue{background:linear-gradient(135deg,#1976d2,#42a5f5)}.b-green{background:linear-gradient(135deg,#16a34a,#22c55e)}.b-purple{background:linear-gradient(135deg,#7c3aed,#8b5cf6)}.b-navy{background:linear-gradient(135deg,#0b2a5c,#1e4a8f)}.b-grey{background:#e5e7eb;color:#475569}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btnrow .btn{flex:1;min-width:120px}
+.msg{padding:12px;border-radius:12px;font-weight:700;font-size:13.5px;margin:10px 0;display:none;line-height:1.45}
+.msg.show{display:block}.msg.ok{background:#dcfce7;color:#166534}.msg.err{background:#fee2e2;color:#991b1b}.msg.load{background:#e0f2fe;color:#075985}.msg.warn{background:#fff7ed;color:#9a3412}
+.lock{background:#fff7ed;border:1px solid #ffcc80;border-radius:16px;padding:18px;text-align:center;color:#9a3412;font-weight:700;line-height:1.5}
+.lock b{display:block;font-size:30px;margin-bottom:6px}
+.empty-note{text-align:center;color:var(--muted);padding:22px 10px;font-weight:700}
+.school{display:flex;gap:12px;align-items:center}
+.school img{width:56px;height:56px;border-radius:12px;object-fit:contain;background:#fff;border:1px solid var(--line)}
+.school b{font-size:16px;color:var(--navy)}
+.drow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.drow:last-child{border-bottom:none}.drow span{color:var(--muted);font-weight:700}.drow b{text-align:right}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.go{background:#fff;border-radius:16px;border:1px solid #eef0f3;box-shadow:0 4px 18px rgba(0,0,0,.06);padding:14px 10px;text-align:center;font-weight:800;color:var(--navy);cursor:pointer;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:4px solid var(--blue)}
+.go .ic{font-size:28px}.go small{font-size:11px;color:var(--muted);font-weight:700}
+.go.closed{opacity:.6;border-left-color:#f59e0b}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.chip{flex-shrink:0;border:1px solid #cbd5e1;border-radius:999px;padding:0 14px;min-height:40px;font-weight:700;font-size:13px;color:var(--navy);background:#fff;cursor:pointer}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.item{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.06);border:1px solid #eef0f3;border-left:5px solid var(--blue);margin-bottom:10px}
+.item h4{margin:0 0 6px;color:var(--navy);font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.item h4 small{color:var(--muted);font-weight:700;font-size:11.5px;white-space:nowrap}
+.line{font-size:13.5px;line-height:1.5;margin:3px 0}.line span{color:var(--muted);font-weight:700}
+.hw{background:#fff7ed;border-left:3px solid var(--orange);padding:6px 8px;border-radius:6px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}
+.stat b{display:block;font-size:19px;color:var(--navy)}.stat span{font-size:10.5px;color:var(--muted);font-weight:700}
+.dchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.dchip{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:#fee2e2;color:#991b1b}.dchip.l{background:#fff3e0;color:#9a3412}.dchip.u{background:#ede9fe;color:#5b21b6}
+.tag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:#e0f2fe;color:#075985}.tag.up{background:#fff3e0;color:#9a3412}
+.score{font-size:22px;font-weight:900;color:var(--navy)}.score small{font-size:13px;color:var(--muted)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-top:1px solid var(--line);display:flex;gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+@media(min-width:761px){.tabs{left:50%;transform:translateX(-50%);right:auto;width:min(620px,calc(100% - 24px));bottom:12px;border-radius:999px;border:1px solid var(--line);padding:6px}}
+.tabBtn{flex:1;padding:7px 2px 6px;border:none;border-radius:12px;cursor:pointer;background:transparent;font-weight:700;font-size:10.5px;color:#64748b;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;line-height:1.1}
+.tabBtn .tabIco{font-size:20px;line-height:1}.tabBtn.active{background:#e3f2fd;color:var(--blue)}
+.pwwrap{position:relative}.pwwrap input{padding-right:52px}.pwwrap .eye{position:absolute;right:4px;top:0;height:46px;width:46px;border:none;background:transparent;font-size:20px;cursor:pointer}
+#setpw{min-height:100vh;display:none;align-items:center;justify-content:center;padding:16px}#setpw .card{background:#fff;border-radius:20px;padding:22px;max-width:380px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.1);border-top:5px solid var(--green)}#setpw h1{margin:8px 0 4px;font-size:20px;color:var(--navy);text-align:center}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+#login .card{background:#fff;border-radius:20px;padding:22px;max-width:380px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.1);border-top:5px solid var(--navy)}
+#login h1{margin:8px 0 2px;font-size:20px;color:var(--navy);text-align:center}
+#login .sch{text-align:center;color:var(--muted);font-weight:700;font-size:13px;margin-bottom:8px}
+#login img{display:block;margin:0 auto;max-width:90px;max-height:90px;border-radius:12px}
+.pwr{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:#64748b;font-size:11px;font-weight:700}.pwr img,#login .pwr img{height:44px;width:auto;max-width:none;max-height:none;margin:0;border-radius:0;display:block}
+.inst{background:#e3f2fd;border:1px solid #90caf9;border-radius:14px;padding:12px;margin-bottom:12px;font-size:13px;line-height:1.5;color:#0b2a5c}
+.inst b{display:block;font-size:14px;margin-bottom:4px}.inst .btn{margin-top:8px}.inst .x{float:right;background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;min-height:34px;min-width:34px}
+#fit{padding:0}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid #eef0f3;border-radius:14px;padding:12px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.kpi b{font-size:19px;display:block;line-height:1.1;color:var(--navy)}.kpi span{font-size:11.5px;color:var(--muted);font-weight:700}
+.tw2{overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:10px}
+.ttab{border-collapse:collapse;width:100%;min-width:480px}.ttab th,.ttab td{padding:9px 8px;border-bottom:1px solid #eef0f3;border-right:1px solid #f1f5f9;text-align:center;font-size:12.5px}
+.ttab th{background:#f8fafc;font-size:11px;text-transform:uppercase;color:#475569}.ttab td:first-child,.ttab th:first-child{text-align:left;position:sticky;left:0;background:#f8fafc;font-weight:800;min-width:78px}
+.ttab .tdy{background:#e3f2fd}.ttab .brk{background:#fff3cd;color:#7c2d12;font-weight:700}.ttab small{display:block;color:var(--muted);font-weight:600;font-size:10px}
+.bar{height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:5px 0 2px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#1976d2,#22c55e);border-radius:999px}
+.brow{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--navy);margin-top:10px}
+.kpi b .pbadge{color:#fff;font-size:11px}
+.pbadge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;color:#fff;background:var(--green)}.pbadge.r{background:var(--red)}.pbadge.o{background:var(--orange)}.pbadge.g{background:#94a3b8}
+.pcard{text-align:center}.pcard .avatar{width:72px;height:72px;font-size:28px;margin:0 auto 10px}
+.cal{width:100%;border-collapse:separate;border-spacing:3px;table-layout:fixed}
+.cal th{font-size:10.5px;color:#475569;font-weight:800;text-transform:uppercase;padding:4px 0;background:transparent!important;border:0!important}.cal th.sun{color:#c62828}
+.cal td{height:50px;text-align:center;vertical-align:top;border-radius:10px;background:#f8fafc;cursor:pointer;padding:5px 0 0;font-size:13px;font-weight:700;color:var(--navy);border:2px solid transparent}
+.cal td.e{background:transparent;cursor:default}.cal td.sun{background:#f1f5f9;color:#94a3b8}
+.cal td.today{border-color:var(--blue)}.cal td.sel{background:var(--navy);color:#fff}
+.dots{display:flex;gap:3px;justify-content:center;margin-top:4px;flex-wrap:wrap;padding:0 3px}.dots i{width:7px;height:7px;border-radius:50%;display:block}
+.cal td.sel .dots i{box-shadow:0 0 0 1.5px #fff}
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.mnav b{font-size:16px;color:var(--navy)}
+.mnav button{border:1px solid #cbd5e1;background:#fff;border-radius:12px;min-width:46px;min-height:46px;font-size:18px;font-weight:800;color:var(--navy);cursor:pointer}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:11.5px;font-weight:700;color:#475569}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+.evi{border-left:5px solid var(--blue)}.evi h4{align-items:flex-start}.evtag{font-size:10.5px;font-weight:800;color:#fff;padding:3px 9px;border-radius:999px;white-space:nowrap}
+@media print{
+  body{background:#fff;padding:0}
+  #app>.top,#app>.tabs,.noprint,#gMsg,.pwr{display:none!important}
+  .wrap{margin:0;padding:0;max-width:none}
+  body:not(.ptt) #screens>.scr:not(#s_result){display:none!important}
+  body.ptt #screens>.scr:not(#s_timetable){display:none!important}
+  #resList,#resMsg,#cardBar{display:none!important}
+  .ttab td:first-child,.ttab th:first-child{position:static}
+}
+}
+
+.tabBtn{font-size:10px}.tabBtn .tabIco{font-size:19px}
+.fpill{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.fp-PAID{background:#dcfce7;color:#166534}.fp-PART{background:#fff3e0;color:#9a3412}.fp-OVERDUE{background:#fee2e2;color:#991b1b}.fp-DUE{background:#fef3c7;color:#92400e}.fp-UPCOMING{background:#e5e7eb;color:#374151}.fp-FREE{background:#e0f2fe;color:#075985}
+.frow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}.frow:last-child{border-bottom:none}
+.frow .l{min-width:0}.frow .l b{color:var(--navy)}.frow .l small{display:block;color:var(--muted);font-weight:700;font-size:11.5px;margin-top:2px}
+.frow .r{text-align:right;white-space:nowrap}.frow .r b{display:block;color:var(--navy)}
+.fbig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}.fbig div{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center}.fbig b{display:block;font-size:16px;color:var(--navy)}.fbig span{font-size:10.5px;color:var(--muted);font-weight:700}
+.fhead{font-weight:900;color:var(--navy);font-size:13px;margin:12px 0 2px;border-bottom:2px solid var(--line);padding-bottom:3px}
+</style>
+<script src="config.js"></script></head>
+<body>
+
+<div id="setpw">
+  <div class="card">
+    <h1>🔑 Create your password</h1>
+    <p class="meta" style="text-align:center;margin:0 0 6px" id="spNote">Choose a password only you know. You will use it every time you login.</p>
+    <div id="spOldBox" style="display:none"><label>Present password</label><div class="pwwrap"><input id="spOld" type="password" autocomplete="current-password"><button type="button" class="eye" onclick="togglePw('spOld',this)">👁</button></div></div>
+    <label>New password (at least 6 characters)</label><div class="pwwrap"><input id="spNew" type="password" autocomplete="new-password"><button type="button" class="eye" onclick="togglePw('spNew',this)">👁</button></div>
+    <label>Type it again</label><div class="pwwrap"><input id="spNew2" type="password" autocomplete="new-password" onkeydown="if(event.key==='Enter')saveNewPw()"><button type="button" class="eye" onclick="togglePw('spNew2',this)">👁</button></div>
+    <p class="meta" style="margin:6px 0 0">Do not use your date of birth or admission number.</p>
+    <div class="msg" id="spMsg"></div>
+    <div class="btnrow"><button class="btn b-green" id="btnSp" onclick="saveNewPw()">💾 Save password</button></div>
+    <div class="btnrow"><button class="btn b-grey" id="spCancel" style="display:none" onclick="$('setpw').style.display='none';$('app').style.display='block'">Cancel</button><button class="btn b-grey" onclick="doLogout()">Logout</button></div>
+  </div>
+</div>
+<div id="login" style="display:none">
+  <div class="card">
+    <img id="lgLogo" alt="" style="display:none">
+    <h1>Student Portal</h1>
+    <div class="sch" id="lgSchool"></div>
+    <label>Admission Number</label><input id="lgAdm" inputmode="text" autocomplete="username" placeholder="e.g. 1001">
+    <label>Password</label><div class="pwwrap"><input id="lgPw" type="password" autocomplete="current-password" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"><button type="button" class="eye" onclick="togglePw('lgPw',this)" aria-label="Show or hide password">👁</button></div>
+    <p class="meta" style="margin:6px 0 0">First time? Your password is your date of birth as DD-MM-YYYY (for example 03-10-2019). The app will then ask you to create your own password.</p>
+    <div class="inst" id="instLogin" style="display:none;margin-top:12px"></div>
+    <div class="msg" id="lgMsg"></div>
+    <div class="btnrow"><button class="btn b-navy" id="btnLogin" onclick="doLogin()">🔐 Login</button></div>
+    <p class="meta" style="text-align:center;margin-top:12px">Forgot your password? Please contact the school office.</p><div class="pwr"><span>Powered by</span><img src="icons/digit-logo.png" alt="DiGit Software Consultancy"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+<div class="top">
+  <div class="top-left">
+    <div class="avatar" id="avatarLetter">S</div>
+    <div style="min-width:0"><div class="welcome" id="wName">Welcome</div><div class="sub" id="wSub">-</div><span class="pill" id="wPill" style="display:none"></span></div>
+  </div>
+  <div class="top-right">
+    <div class="badge">STUDENT</div>
+    <button class="btn-logout" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+
+<div class="wrap" id="screens">
+  <div class="msg" id="gMsg"></div>
+
+  <div class="scr" id="s_home">
+    <div class="inst noprint" id="instHome" style="display:none"></div>
+    <div id="dBody"></div>
+    <div class="pwr"><span>Powered by</span><img src="icons/digit-logo.png" alt="DiGit Software Consultancy"></div>
+  </div>
+
+  <div class="scr" id="s_events" style="display:none"><div id="evBody"></div></div>
+  <div class="scr" id="s_timetable" style="display:none"><div id="ttBody"></div></div>
+  <div class="scr" id="s_profile" style="display:none"><div id="pBody"></div></div>
+  <div class="scr" id="s_performance" style="display:none"><div id="pfBody"></div></div>
+  <div class="scr" id="s_fees" style="display:none"><div id="feeBody"></div></div>
+
+  <div class="scr" id="s_result" style="display:none">
+    <div id="resList"></div>
+    <div class="msg" id="resMsg"></div>
+    <div id="cardBar" class="noprint" style="display:none">
+      <div class="btnrow"><button class="btn b-green" onclick="window.print()">🖨️ Print / Save as PDF</button><button class="btn b-grey" onclick="backToList()">⬅️ Back to results</button></div>
+    </div>
+    <div id="fit"></div>
+  </div>
+</div>
+
+<div class="tabs" id="tabsBar">
+  <button class="tabBtn active" data-t="home" onclick="openTab('home')"><span class="tabIco">🏠</span>Home</button>
+  <button class="tabBtn" data-t="events" onclick="openTab('events')"><span class="tabIco">📅</span>Calendar</button>
+  <button class="tabBtn" data-t="timetable" onclick="openTab('timetable')"><span class="tabIco">🗓️</span>Timetable</button>
+  <button class="tabBtn" data-t="profile" onclick="openTab('profile')"><span class="tabIco">👤</span>Profile</button>
+  <button class="tabBtn" data-t="result" onclick="openTab('result')"><span class="tabIco">🎓</span>Result</button>
+  <button class="tabBtn" data-t="performance" onclick="openTab('performance')"><span class="tabIco">📈</span>Progress</button>
+  <button class="tabBtn" data-t="fees" onclick="openTab('fees')"><span class="tabIco">💰</span>Fees</button>
+</div>
+</div>
+
+<script src="rc-render.js"></script>
+<script>
+const WEB_URL = (window.CVSE_CONFIG && window.CVSE_CONFIG.WEB_URL) || ""; if(!WEB_URL){ document.addEventListener("DOMContentLoaded", function(){ var d=document.createElement("div"); d.style.cssText="position:fixed;left:12px;right:12px;top:12px;z-index:99999;background:#fee2e2;border:2px solid #c62828;color:#7f1d1d;border-radius:12px;padding:14px;font:700 14px Arial"; d.textContent="Setup file (config.js) is missing or empty. Reload the page. If it still shows, tell your admin."; document.body.appendChild(d); }); }
+function ls(k){ try{ return localStorage.getItem(k) || ''; }catch(e){ return ''; } }
+function lset(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+var SKEYS = ['cvse_stoken', 'cvse_sadm', 'cvse_sname', 'cvse_sclass'];    // only the student keys are ever removed here: a teacher logged in on the same phone is not touched
+function clearStudent(){ SKEYS.forEach(k => { try{ localStorage.removeItem(k); }catch(e){} }); }
+function esc(s){ return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function $(id){ return document.getElementById(id); }
+function show(el, text, kind){ el.className = 'msg show ' + kind; el.innerText = text; }
+function hide(el){ el.className = 'msg'; }
+
+async function api(action, params, post){
+  let r;
+  if(post) r = await fetch(WEB_URL, {method:'POST', body:JSON.stringify(Object.assign({action:action, token:ls('cvse_stoken')}, params || {}))});
+  else{
+    let url = WEB_URL + '?action=' + action + '&token=' + encodeURIComponent(ls('cvse_stoken'));
+    for(let k in (params || {})) url += '&' + k + '=' + encodeURIComponent(params[k]);
+    r = await fetch(url);
+  }
+  let j = await r.json();
+  if(j && j.code === 'AUTH'){ clearStudent(); showLogin('Your session has ended. Please login again.'); throw new Error('AUTH'); }
+  if(j && j.code === 'MUSTCHANGE'){ showSetPw(true); throw new Error('AUTH'); }
+  return j;
+}
+
+/* ---------- login ---------- */
+function togglePw(id, btn){ let e = $(id); e.type = e.type === 'password' ? 'text' : 'password'; }
+function showSetPw(forced){
+  $('app').style.display = 'none'; $('login').style.display = 'none'; $('setpw').style.display = 'flex';
+  SP_FORCED = !!forced; $('spCancel').style.display = forced ? 'none' : 'block'; $('spOldBox').style.display = forced ? 'none' : 'block'; hide($('spMsg'));
+  ['spOld','spNew','spNew2'].forEach(i => $(i).value = '');
+}
+var SP_FORCED = true;
+function PWMSG(m){ try{ openTab('profile'); setTimeout(function(){ let e = $('pwOk'); if(e) show(e, m, 'ok'); }, 400); }catch(x){} }
+async function showLogin(note){
+  $('app').style.display = 'none'; $('setpw').style.display = 'none'; $('login').style.display = 'flex';
+  if(note) show($('lgMsg'), note, 'warn');
+  try{
+    let s = await (await fetch(WEB_URL + '?action=getallsettings')).json();
+    $('lgSchool').innerText = s.School_Name || (s.settings && s.settings.School_Name) || '';
+    let logo = s['Logo Path'] || (s.settings && s.settings['Logo Path']) || '';
+    if(logo){ $('lgLogo').src = logo; $('lgLogo').style.display = 'block'; }
+  }catch(e){}
+}
+async function doLogin(){
+  let adm = $('lgAdm').value.trim(), pw = $('lgPw').value;
+  if(!adm || !pw){ show($('lgMsg'), 'Enter the admission number and the password.', 'err'); return; }
+  let b = $('btnLogin'); b.disabled = true; show($('lgMsg'), 'Logging in...', 'load');
+  try{
+    let r = await (await fetch(WEB_URL, {method:'POST', body:JSON.stringify({action:'studentlogin', admissionNo:adm, password:pw})})).json();
+    if(!r.success){ show($('lgMsg'), '❌ ' + (r.error || 'Could not login.'), 'err'); return; }
+    lset('cvse_stoken', r.token); lset('cvse_sadm', r.student.admissionNo); lset('cvse_sname', r.student.name); lset('cvse_sclass', r.student.className);
+    hide($('lgMsg')); $('lgPw').value = '';
+    if(r.mustChange) showSetPw(true); else startApp();
+  }catch(e){ show($('lgMsg'), '❌ Network problem. Check the internet and try again.', 'err'); }
+  finally{ b.disabled = false; }
+}
+async function saveNewPw(){
+  let n1 = $('spNew').value, n2 = $('spNew2').value, old = $('spOld').value;
+  if(!SP_FORCED && !old){ show($('spMsg'), 'Enter your present password.', 'err'); return; }
+  if(n1.length < 6){ show($('spMsg'), 'The password must be at least 6 characters.', 'err'); return; }
+  if(n1 !== n2){ show($('spMsg'), 'The two passwords are not the same.', 'err'); return; }
+  let b = $('btnSp'); b.disabled = true; show($('spMsg'), 'Saving... please wait', 'load');
+  try{
+    let r = await (await fetch(WEB_URL, {method:'POST', body:JSON.stringify({action:'studentsetpassword', token:ls('cvse_stoken'), oldPassword:old, newPassword:n1})})).json();
+    if(!r.success){ show($('spMsg'), '❌ ' + (r.error || 'Could not save.'), 'err'); return; }
+    lset('cvse_stoken', r.token); $('setpw').style.display = 'none'; ['spOld','spNew','spNew2'].forEach(i => $(i).value = '');
+    if(SP_FORCED) startApp(); else { $('app').style.display = 'block'; if(typeof PWMSG === 'function') PWMSG('✅ ' + r.message); }
+  }catch(e){ show($('spMsg'), '❌ Network problem. Nothing was saved. Try again.', 'err'); }
+  finally{ b.disabled = false; }
+}
+function doLogout(){ clearStudent(); $('lgAdm').value = ''; hide($('lgMsg')); showLogin(''); }
+
+/* ---------- app ---------- */
+var HOME = null, CUR = 'home';
+async function startApp(){
+  $('login').style.display = 'none'; $('app').style.display = 'block';
+  $('wName').innerText = 'Welcome, ' + (ls('cvse_sname') || 'Student');
+  $('wSub').innerText = 'Adm No: ' + ls('cvse_sadm') + ' · Class ' + ls('cvse_sclass');
+  $('avatarLetter').innerText = String(ls('cvse_sname') || 'S').trim().charAt(0).toUpperCase();
+  show($('gMsg'), 'Loading...', 'load');
+  try{
+    let r = await api('studenthome');
+    if(!r.success){ show($('gMsg'), '❌ ' + (r.error || 'Could not load.'), 'err'); return; }
+    HOME = r; hide($('gMsg'));
+    if(r.school.session){ $('wPill').innerText = 'Session ' + r.school.session; $('wPill').style.display = ''; }
+    document.querySelectorAll('#tabsBar .tabBtn').forEach(b => { let i = tabInfo(b.dataset.t); b.style.opacity = i.open ? '' : '.55'; if(b.dataset.t === 'fees' && !i.open) b.style.display = 'none'; });
+    openTab('home');
+  }catch(e){ if(e.message !== 'AUTH') show($('gMsg'), '❌ Network problem. Check the internet and reload.', 'err'); }
+}
+function tabInfo(k){ return (HOME && HOME.tabs || []).find(t => t.key === k) || {open:true}; }
+function openTab(k){
+  CUR = k;
+  document.querySelectorAll('.scr').forEach(s => s.style.display = 'none');
+  $('s_' + k).style.display = '';
+  document.querySelectorAll('#tabsBar .tabBtn').forEach(b => b.classList.toggle('active', b.dataset.t === k));
+  window.scrollTo({top:0});
+  hide($('gMsg'));
+  if(k === 'home') loadDaily(''); else if(k === 'events') loadCal(''); else if(k === 'timetable') loadTT(); else if(k === 'profile') loadProfile(); else if(k === 'performance') loadPerf(''); else if(k === 'result') loadResults(); else if(k === 'fees') loadFees();
+}
+function lockHtml(m){ return '<div class="lock"><b>🔒</b>' + esc(m || 'This section is not available right now. Please contact the school office.') + '</div>'; }
+function failHtml(retry){ return '<div class="msg show err">❌ Network problem. Please check the internet and <a href="#" onclick="' + retry + ';return false">try again</a>.</div>'; }
+function pc(v){ return v === null || v === undefined ? '-' : v + '%'; }
+
+/* ---------- home (today + daily updates) ---------- */
+async function loadDaily(date){
+  $('dBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentdaily', date ? {date:date} : {});
+    if(!r.success){ $('dBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('dBody').innerHTML = lockHtml(r.message); return; }
+    let td = r.today || {}, st = td.status || '', cls = st === 'Present' ? '' : (st === 'Absent' ? 'r' : 'g');
+    let h = '<div class="kpis"><div class="kpi"><b>' + (st === 'Present' ? '✅ Present' : st === 'Absent' ? '❌ Absent' : '⏳ ' + esc(st)) + '</b><span>Today · ' + esc(td.date || '') + '</span></div>' +
+      '<div class="kpi"><b>' + (st === 'Present' ? (td.late ? '<span class="pbadge o">Late entry</span>' : '<span class="pbadge">On time</span>') : '-') + (st === 'Present' && td.uniform !== null ? ' ' + (td.uniform ? '<span class="pbadge">Uniform ✓</span>' : '<span class="pbadge o">Uniform incomplete</span>') : '') + '</b><span>Entry · Uniform</span></div></div>';
+    if(!r.dates.length){ $('dBody').innerHTML = h + '<div class="empty-note">No daily update has been published yet.</div>'; return; }
+    h += '<div class="box"><div class="title">📚 Daily Report — ' + esc(r.date) + '</div><div class="meta">Lessons, homework and remarks from the teachers</div><div class="chips" style="margin-top:10px">' +
+      r.dates.map(d => '<button class="chip ' + (d === r.date ? 'on' : '') + '" onclick="loadDaily(\'' + d + '\')">' + esc(d) + '</button>').join('') + '</div></div>';
+    h += r.items.map(i => '<div class="item"><h4>' + esc(i.subject) + '<small>' + esc(i.time || ('Period ' + i.period)) + '</small></h4>' +
+      (i.chapter ? '<div class="line"><span>Chapter:</span> ' + esc(i.chapter) + '</div>' : '') +
+      (i.topic ? '<div class="line"><span>Topic / Activity:</span> ' + esc(i.topic) + '</div>' : '') +
+      (i.homework ? '<div class="line hw"><span>Homework:</span> ' + esc(i.homework) + (i.submissionDate ? ' <b>(Submit by ' + esc(i.submissionDate) + ')</b>' : '') + '</div>' : '') +
+      (i.reminder ? '<div class="line"><span>Reminder:</span> ' + esc(i.reminder) + '</div>' : '') +
+      (i.comment ? '<div class="line"><span>⭐ Teacher\'s note:</span> ' + esc(i.comment) + '</div>' : '') +
+      (i.teacherName ? '<div class="line" style="font-size:11.5px;color:var(--muted)">' + esc(i.teacherName) + '</div>' : '') + '</div>').join('');
+    $('dBody').innerHTML = h;
+  }catch(e){ if(e.message !== 'AUTH') $('dBody').innerHTML = failHtml("loadDaily('')"); }
+}
+
+/* ---------- calendar (events) ---------- */
+var EVC = {HOLIDAY:'#c62828', EXAM:'#7c3aed', TEST:'#ef6c00', PROGRAM:'#1976d2', PTM:'#1976d2', HOMEWORK:'#16a34a', OTHER:'#64748b'};
+var EVL = {HOLIDAY:'Holiday', EXAM:'Exam', TEST:'Class Test', PROGRAM:'School Program', PTM:'PTM / Meeting', HOMEWORK:'Homework due', OTHER:'Other'};
+var MONTHN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var CALD = null, CALSEL = '';
+function dkey(d){ let a = String(d).split('-'); return a[2] + '-' + a[1] + '-' + a[0]; }            // DD-MM-YYYY -> YYYY-MM-DD (to compare)
+function evOn(items, iso){ return items.filter(x => dkey(x.date) <= iso && iso <= dkey(x.endDate || x.date)); }
+async function loadCal(month){
+  $('evBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentevents', month ? {month:month} : {});
+    if(!r.success){ $('evBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('evBody').innerHTML = lockHtml(r.message); return; }
+    CALD = r; let ty = r.today.split('-');
+    CALSEL = (r.month === ty[1] + '-' + ty[2]) ? dkey(r.today) : r.month.split('-')[1] + '-' + r.month.split('-')[0] + '-01';
+    drawCal();
+  }catch(e){ if(e.message !== 'AUTH') $('evBody').innerHTML = failHtml("loadCal('')"); }
+}
+function shiftMonth(n){ let a = CALD.month.split('-'), d = new Date(+a[1], +a[0] - 1 + n, 1); loadCal(String(d.getMonth() + 1).padStart(2, '0') + '-' + d.getFullYear()); }
+function pickDay(iso){ CALSEL = iso; drawCal(); }
+function drawCal(){
+  let r = CALD, a = r.month.split('-'), mo = +a[0], yr = +a[1], first = new Date(yr, mo - 1, 1), days = new Date(yr, mo, 0).getDate();
+  let lead = (first.getDay() + 6) % 7, todayIso = dkey(r.today);
+  let h = '<div class="box"><div class="mnav"><button onclick="shiftMonth(-1)" aria-label="Previous month">◀</button><b>' + MONTHN[mo - 1] + ' ' + yr + '</b><button onclick="shiftMonth(1)" aria-label="Next month">▶</button></div>' +
+    '<table class="cal"><tr>' + ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d => '<th class="' + (d === 'Sun' ? 'sun' : '') + '">' + d + '</th>').join('') + '</tr><tr>';
+  for(let i = 0; i < lead; i++) h += '<td class="e"></td>';
+  for(let d = 1; d <= days; d++){
+    let iso = yr + '-' + String(mo).padStart(2, '0') + '-' + String(d).padStart(2, '0'), col = (lead + d - 1) % 7;
+    if(col === 0 && d > 1) h += '</tr><tr>';
+    let types = {}; evOn(r.items, iso).forEach(x => types[x.type] = 1);
+    let dots = Object.keys(types).slice(0, 4).map(k => '<i style="background:' + (EVC[k] || EVC.OTHER) + '"></i>').join('');
+    h += '<td class="' + (col === 6 ? 'sun ' : '') + (iso === todayIso ? 'today ' : '') + (iso === CALSEL ? 'sel' : '') + '" onclick="pickDay(\'' + iso + '\')">' + d + '<div class="dots">' + dots + '</div></td>';
+  }
+  for(let c = (lead + days) % 7; c !== 0 && c < 7; c++) h += '<td class="e"></td>';
+  h += '</tr></table><div class="legend">' + ['HOLIDAY','EXAM','TEST','PROGRAM','HOMEWORK'].map(k => '<span><i style="background:' + EVC[k] + '"></i>' + (k === 'PROGRAM' ? 'Program / PTM' : EVL[k]) + '</span>').join('') + '<span><i style="background:#94a3b8"></i>Sunday</span></div></div>';
+  let sel = evOn(r.items, CALSEL), sp = CALSEL.split('-');
+  h += '<div class="box"><div class="title">' + sp[2] + '-' + sp[1] + '-' + sp[0] + '</div>' + (sel.length ? '' : '<div class="meta">Nothing on this day.</div>') + '</div>';
+  h += sel.map(evCard).join('');
+  h += '<div class="box"><div class="title">⏭️ Coming up (next 30 days)</div>' + (r.upcoming.length ? '' : '<div class="meta">Nothing coming up.</div>') + '</div>';
+  h += r.upcoming.map(evCard).join('');
+  $('evBody').innerHTML = h;
+}
+function evCard(x){
+  let c = EVC[x.type] || EVC.OTHER;
+  return '<div class="item evi" style="border-left-color:' + c + '"><h4><span>' + esc(x.title) + '</span><span class="evtag" style="background:' + c + '">' + esc(EVL[x.type] || 'Event') + '</span></h4>' +
+    '<div class="line"><span>Date:</span> ' + esc(x.date) + (x.endDate && x.endDate !== x.date ? ' to ' + esc(x.endDate) : '') + (x.time ? ' · ' + esc(x.time) : '') + '</div>' +
+    (x.details ? '<div class="line">' + esc(x.details) + '</div>' : '') + '</div>';
+}
+
+/* ---------- timetable ---------- */
+async function loadTT(){
+  $('ttBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studenttimetable');
+    if(!r.success){ $('ttBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('ttBody').innerHTML = lockHtml(r.message); return; }
+    if(!r.days.length){ $('ttBody').innerHTML = '<div class="empty-note">The timetable of your class is not ready yet.</div>'; return; }
+    let sh = d => d.charAt(0) + d.slice(1, 3).toLowerCase();
+    let h = '<div class="box"><div class="title">🗓️ My Timetable — Class ' + esc(r.className) + '</div><div class="meta">' + esc((HOME && HOME.school.name) || '') + '</div><div class="tw2"><table class="ttab" style="min-width:' + (90 + r.days.length * 80) + 'px"><tr><th>Period</th>' +
+      r.days.map(d => '<th class="' + (d === r.today ? 'tdy' : '') + '">' + sh(d) + '</th>').join('') + '</tr>';
+    r.periods.forEach(p => {
+      let lab = '<td>' + esc(p.label) + (p.time ? '<small>' + esc(p.time) + '</small>' : '') + '</td>';
+      if(!p.teaching){ h += '<tr>' + lab + '<td class="brk" colspan="' + r.days.length + '">🍽️ Break</td></tr>'; return; }
+      h += '<tr>' + lab + r.days.map(d => { let c = (r.cells[d] || {})[p.no]; return '<td class="' + (d === r.today ? 'tdy' : '') + '">' + (c ? esc(c.subject) + (c.teacher ? '<small>' + esc(c.teacher) + '</small>' : '') : '-') + '</td>'; }).join('') + '</tr>';
+    });
+    h += '</table></div><div class="btnrow noprint"><button class="btn b-navy" onclick="printTT()">🖨️ Print Timetable</button></div></div>';
+    $('ttBody').innerHTML = h;
+  }catch(e){ if(e.message !== 'AUTH') $('ttBody').innerHTML = failHtml('loadTT()'); }
+}
+function printTT(){ document.body.classList.add('ptt'); window.print(); setTimeout(() => document.body.classList.remove('ptt'), 500); }
+
+/* ---------- profile ---------- */
+async function loadProfile(){
+  $('pBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentprofile');
+    if(!r.success){ $('pBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('pBody').innerHTML = lockHtml(r.message); return; }
+    let s = r.student, sc = (HOME && HOME.school) || {};
+    $('pBody').innerHTML = '<div class="box pcard"><div class="avatar">' + esc(String(s.name || 'S').trim().charAt(0).toUpperCase()) + '</div><div class="title" style="margin-bottom:2px">' + esc(s.name) + '</div>' +
+      '<div class="meta">Adm ' + esc(s.admissionNo) + ' · Class ' + esc(s.className) + (s.rollNo ? ' · Roll ' + esc(s.rollNo) : '') + '</div><div style="margin-top:8px"><span class="pbadge">Active Student</span></div></div>' +
+      '<div class="box"><div class="title">👨‍👩‍👦 Details</div>' + (r.details.map(d => '<div class="drow"><span>' + esc(d.label) + '</span><b>' + esc(d.value) + '</b></div>').join('') || '<div class="meta">No details on record.</div>') +
+      '<div class="meta" style="margin-top:10px">Something wrong here? Please tell the school office.</div></div>' +
+      '<div class="box"><div class="title">🔑 Password</div><div class="meta">Change the password you use to login.</div><div id="pwOk" class="msg"></div><div class="btnrow"><button class="btn b-purple" onclick="showSetPw(false)">Change password</button></div></div>' +
+      '<div class="box"><div class="school">' + (sc.logo ? '<img src="' + esc(sc.logo) + '" alt="">' : '') + '<div><b>' + esc(sc.name || '') + '</b><div class="meta">' + (sc.session ? 'Session ' + esc(sc.session) : '') + '</div></div></div></div>';
+  }catch(e){ if(e.message !== 'AUTH') $('pBody').innerHTML = failHtml('loadProfile()'); }
+}
+
+/* ---------- performance (attendance + class tests) ---------- */
+async function loadPerf(month){
+  $('pfBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentperformance', month ? {month:month} : {});
+    if(!r.success){ $('pfBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('pfBody').innerHTML = lockHtml(r.message); return; }
+    let a = r.attendance, h = '<div class="kpis"><div class="kpi"><b>' + pc(a.session.percent) + '</b><span>Attendance · whole session</span></div><div class="kpi"><b>' + pc(r.overallAvg) + '</b><span>Class test average</span></div></div>';
+    if(r.subjectAvg.length) h += '<div class="box"><div class="title">📊 Class tests — subject average</div>' + r.subjectAvg.map(x => '<div class="brow"><span>' + esc(x.subject) + ' <small style="color:var(--muted);font-weight:600">(' + x.tests + ' test' + (x.tests > 1 ? 's' : '') + ')</small></span><span>' + x.percent + '%</span></div><div class="bar"><i style="width:' + Math.max(0, Math.min(100, x.percent)) + '%"></i></div>').join('') + '</div>';
+    if(!a.months.length) h += '<div class="box"><div class="title">✅ Attendance</div><div class="empty-note">No attendance has been recorded yet.</div></div>';
+    else{
+      let m = a.monthData;
+      h += '<div class="box"><div class="title">✅ Attendance</div><div class="stats"><div class="stat"><b>' + a.session.workingDays + '</b><span>Days</span></div><div class="stat"><b>' + a.session.present + '</b><span>Present</span></div><div class="stat"><b>' + a.session.absent + '</b><span>Absent</span></div><div class="stat"><b>' + pc(a.session.percent) + '</b><span>Attendance</span></div></div>' +
+        '<label>Month</label><select onchange="loadPerf(this.value)">' + a.months.map(x => '<option value="' + esc(x.value) + '"' + (x.value === a.month ? ' selected' : '') + '>' + esc(x.label) + '</option>').join('') + '</select>' +
+        '<div class="stats"><div class="stat"><b>' + m.workingDays + '</b><span>Days</span></div><div class="stat"><b>' + m.present + '</b><span>Present</span></div><div class="stat"><b>' + m.absent + '</b><span>Absent</span></div><div class="stat"><b>' + pc(m.percent) + '</b><span>Attendance</span></div></div>' +
+        (m.absentDates.length ? '<div class="line"><span>Absent on</span></div><div class="dchips">' + m.absentDates.map(d => '<span class="dchip">' + esc(d) + '</span>').join('') + '</div>' : '<div class="line">🎉 No absence this month.</div>') +
+        (m.lateDates.length ? '<div class="line" style="margin-top:10px"><span>Late entry on</span></div><div class="dchips">' + m.lateDates.map(d => '<span class="dchip l">' + esc(d) + '</span>').join('') + '</div>' : '') +
+        (m.uniformDates.length ? '<div class="line" style="margin-top:10px"><span>Incomplete uniform on</span></div><div class="dchips">' + m.uniformDates.map(d => '<span class="dchip u">' + esc(d) + '</span>').join('') + '</div>' : '') + '</div>';
+    }
+    h += '<div class="box"><div class="title">📝 Class tests</div></div>';
+    h += r.tests.length ? r.tests.map(t => '<div class="item" style="border-left-color:' + (t.upcoming ? '#ef6c00' : '#1976d2') + '"><h4>' + esc(t.subject) + ' · ' + esc(t.testName) + '<small>' + esc(t.date) + '</small></h4>' +
+      (t.upcoming ? '<span class="tag up">Upcoming</span> <span class="meta">Full marks ' + t.maxMarks + '</span>' :
+        (t.marks === '' ? '<span class="tag">Marks not entered</span>' : (String(t.marks).toUpperCase() === 'AB' ? '<span class="tag up">Absent</span>' : '<div class="score">' + esc(t.marks) + ' <small>/ ' + t.maxMarks + '</small></div>'))) +
+      (t.remark ? '<div class="line"><span>Remark:</span> ' + esc(t.remark) + '</div>' : '') + '</div>').join('') : '<div class="empty-note">No class test yet.</div>';
+    $('pfBody').innerHTML = h;
+  }catch(e){ if(e.message !== 'AUTH') $('pfBody').innerHTML = failHtml("loadPerf('')"); }
+}
+
+/* ---------- results ---------- */
+async function loadResults(){
+  backToList(true);
+  $('resList').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentresults');
+    if(!r.success){ $('resList').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('resList').innerHTML = lockHtml(r.message); return; }
+    if(!r.reports.length){ $('resList').innerHTML = '<div class="empty-note">' + esc(r.message) + '</div>'; return; }
+    $('resList').innerHTML = '<div class="box"><div class="title">🎓 My Report Cards</div>' + r.reports.map(x => x.available
+      ? '<div class="btnrow"><button class="btn b-navy" onclick="openCard(\'' + esc(x.reportId) + '\')">📄 ' + esc(x.name) + '</button></div>'
+      : '<div class="lock" style="margin-top:10px;padding:12px"><b style="font-size:20px">🔒</b>' + esc(x.name) + '<br><span style="font-weight:600">' + esc(x.message) + '</span></div>').join('') + '</div>';
+  }catch(e){ if(e.message !== 'AUTH') $('resList').innerHTML = failHtml('loadResults()'); }
+}
+async function openCard(id){
+  show($('resMsg'), 'Opening your report card...', 'load');
+  try{
+    let r = await api('studentreportcard', {reportId:id});
+    if(r.closed){ hide($('resMsg')); $('resList').innerHTML = lockHtml(r.message); return; }
+    if(!r.success){ show($('resMsg'), '❌ ' + (r.error || 'Could not open.'), 'err'); return; }
+    hide($('resMsg')); $('resList').style.display = 'none'; $('cardBar').style.display = '';
+    $('fit').innerHTML = rcCardsHtml(r, r.students); rcFit($('fit'));
+    window.scrollTo({top:0});
+  }catch(e){ if(e.message !== 'AUTH') show($('resMsg'), '❌ Network problem. Please try again.', 'err'); }
+}
+function backToList(quiet){ $('fit').innerHTML = ''; $('cardBar').style.display = 'none'; $('resList').style.display = ''; if(!quiet) hide($('resMsg')); }
+window.addEventListener('resize', () => { if($('fit').innerHTML) rcFit($('fit')); });
+window.addEventListener('beforeprint', () => { $('fit').querySelectorAll('.cw').forEach(c => { c.style.width = ''; c.style.height = ''; }); });
+window.addEventListener('afterprint', () => { if($('fit').innerHTML) rcFit($('fit')); });
+
+
+/* ---------- fees (read only) ---------- */
+function frs(n, dec){ return '₹' + (Number(n) || 0).toLocaleString('en-IN', {minimumFractionDigits:dec || 0, maximumFractionDigits:dec || 0}); }
+var FPILL = {PAID:'Paid', PART:'Part paid', OVERDUE:'Overdue', DUE:'Due today', UPCOMING:'Upcoming', FREE:'No fee'};
+async function loadFees(){
+  $('feeBody').innerHTML = '<div class="msg show load">Loading...</div>';
+  try{
+    let r = await api('studentfees');
+    if(!r.success){ $('feeBody').innerHTML = '<div class="msg show err">❌ ' + esc(r.error || 'Could not load.') + '</div>'; return; }
+    if(r.closed){ $('feeBody').innerHTML = lockHtml(r.message); return; }
+    let d = r.decimals, s = r.summary, h = '';
+    if(r.lock && r.lock.locked) h += '<div class="lock" style="margin-bottom:12px;padding:12px"><b style="font-size:22px">🔒</b>' + esc(r.lock.message) + '</div>';
+    h += '<div class="box"><div class="title">💰 My Fees <small style="color:var(--muted);font-size:12px">· Session ' + esc(r.session) + '</small></div>' +
+      '<div class="fbig"><div><b>' + frs(s.net, d) + '</b><span>Total fees</span></div><div><b>' + frs(s.paid, d) + '</b><span>Paid</span></div><div><b style="color:' + (s.totalDue > 0 ? '#c62828' : '#16a34a') + '">' + frs(s.totalDue, d) + '</b><span>Unpaid</span></div></div>';
+    if(s.overdue > 0) h += '<div class="msg show err" style="margin:6px 0">⏰ Overdue now: <b>' + frs(s.overdue, d) + '</b>. Please pay at the school office.</div>';
+    else if(s.totalDue <= 0) h += '<div class="msg show ok" style="margin:6px 0">✅ All fees are paid. Thank you!</div>';
+    if(s.nextDue) h += '<div class="meta">Next: <b>' + esc(s.nextDue.label) + '</b>' + (s.nextDue.due ? ' · due ' + esc(s.nextDue.due) : '') + ' · ' + frs(s.nextDue.amount, d) + '</div>';
+    h += '<div class="meta" style="margin-top:8px">Fees are paid at the school office. This page shows your account.</div></div>';
+    if(s.previous > 0 || s.fine > 0){
+      h += '<div class="box"><div class="title">Other amounts</div>' + (s.previous > 0 ? '<div class="frow"><div class="l"><b>Previous dues</b><small>Brought forward from earlier</small></div><div class="r"><b>' + frs(s.previous, d) + '</b></div></div>' : '') +
+        (s.fine > 0 ? '<div class="frow"><div class="l"><b>Late fine so far</b></div><div class="r"><b>' + frs(s.fine, d) + '</b></div></div>' : '') + '</div>';
+    }
+    if(r.siblingOff > 0 || r.concessionOff > 0){
+      h += '<div class="box"><div class="title">🎁 Discounts you get</div>' +
+        (r.siblingOff > 0 ? '<div class="frow"><div class="l"><b>Sibling discount</b><small>Child no ' + r.childNo + ' of the family</small></div><div class="r"><b>' + frs(r.siblingOff, d) + '</b></div></div>' : '') +
+        (r.concessionOff > 0 ? '<div class="frow"><div class="l"><b>Concession</b>' + r.concessions.map(c => '<small>' + esc(c.heads) + ' · ' + (c.mode === 'PERCENT' ? c.value + '%' : frs(c.value, d)) + (c.reason ? ' · ' + esc(c.reason) : '') + '</small>').join('') + '</div><div class="r"><b>' + frs(r.concessionOff, d) + '</b></div></div>' : '') +
+        '<div class="meta" style="margin-top:6px">Total discount in the session: <b>' + frs(s.discount, d) + '</b></div></div>';
+    }
+    let last = null, body = '';
+    r.lines.forEach(l => {
+      if(l.head !== last){ body += '<div class="fhead">' + esc(l.head) + '</div>'; last = l.head; }
+      body += '<div class="frow"><div class="l"><b>' + esc(l.label) + '</b><small>' + (l.due ? 'Due ' + esc(l.due) : '') + (l.discount > 0 ? ' · discount ' + frs(l.discount, d) : '') + '</small></div>' +
+        '<div class="r"><b>' + frs(l.net, d) + '</b><span class="fpill fp-' + l.status + '">' + FPILL[l.status] + '</span>' + (l.status === 'PART' ? '<small style="display:block;color:#64748b;font-weight:700">Paid ' + frs(l.paid, d) + '</small>' : '') + '</div></div>';
+    });
+    h += '<div class="box"><div class="title">Fee details</div>' + (body || '<div class="meta">No fees are set for you yet. Please ask the school office.</div>') + '</div>';
+    h += '<div class="box"><div class="title">🧾 My receipts</div>' + (r.receipts.length ? r.receipts.map(x => '<div class="frow"><div class="l"><b>' + esc(x.no) + '</b><small>' + esc(x.date) + (x.mode ? ' · ' + esc(x.mode) : '') + '</small></div><div class="r"><b>' + frs(x.total, d) + '</b><button class="btn b-navy" style="min-height:38px;padding:6px 12px;font-size:12px;width:auto" onclick="openReceipt(\'' + esc(x.no) + '\')">🖨 Print</button></div></div>').join('') : '<div class="meta">No receipt yet in this session.</div>') + '</div>';
+    $('feeBody').innerHTML = h;
+  }catch(e){ if(e.message !== 'AUTH') $('feeBody').innerHTML = failHtml('loadFees()'); }
+}
+function openReceipt(no){ window.open('fees-receipt.html?stu=1&no=' + encodeURIComponent(no), '_blank'); }
+
+/* ---------- install help ---------- */
+var DEFER = null;
+function isStandalone(){ return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); DEFER = e; drawInstall(); });
+window.addEventListener('appinstalled', function(){ DEFER = null; lset('cvse_sinst_hide', '1'); drawInstall(); });
+function installNow(){ if(!DEFER) return; DEFER.prompt(); DEFER.userChoice.then(function(){ DEFER = null; drawInstall(); }); }
+function hideInstall(){ lset('cvse_sinst_hide', '1'); drawInstall(); }
+function installHtml(closable){
+  let h = '<b>📲 Keep this app on your phone</b>';
+  if(closable) h = '<button class="x" onclick="hideInstall()" aria-label="Close">✕</button>' + h;
+  if(DEFER) h += 'Add it to your home screen to open it like any other app.<button class="btn b-blue" onclick="installNow()">📲 Install App</button>';
+  else if(isIOS()) h += 'In <b style="display:inline">Safari</b>: tap the <b style="display:inline">Share</b> button (square with an up arrow), then <b style="display:inline">Add to Home Screen</b>, then <b style="display:inline">Add</b>.';
+  else h += 'In Chrome: tap the <b style="display:inline">⋮ menu</b> (top right), then <b style="display:inline">Install app</b> or <b style="display:inline">Add to Home screen</b>.';
+  return h;
+}
+function drawInstall(){
+  let hide = isStandalone() || ls('cvse_sinst_hide') === '1';
+  let a = $('instHome'), l = $('instLogin');
+  a.style.display = hide ? 'none' : ''; if(!hide) a.innerHTML = installHtml(true);
+  l.style.display = isStandalone() ? 'none' : ''; if(!isStandalone()) l.innerHTML = installHtml(false);
+}
+
+/* ---------- PWA (installable app) ---------- */
+if('serviceWorker' in navigator && location.protocol === 'https:'){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+
+drawInstall();
+if(ls('cvse_stoken') && ls('cvse_sadm')) startApp(); else showLogin('');
+</script>
+</body></html>
