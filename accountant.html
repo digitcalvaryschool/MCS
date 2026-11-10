@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta name="app-version" content="2026.11.10-S5">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Office</title>
+<style>
+*{box-sizing:border-box}
+:root{--navy:#0b2a5c;--blue:#1976d2;--orange:#ef6c00;--green:#16a34a;--purple:#7c3aed;--red:#c62828;--bg:#eef2f7;--line:#e5e7eb;--text:#111827;--muted:#64748b;--frame:#1a4bb5;--cream:#fdf6d0}
+html{-webkit-tap-highlight-color:transparent}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);margin:0;color:var(--text);padding-bottom:96px}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;gap:10px}
+.top-left{display:flex;gap:10px;align-items:center;min-width:0}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e3f2fd;color:#0d47a1;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.welcome{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.top-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+.badge{background:#e8f5e9;color:#14532d;border:1px solid #a5d6a7;padding:5px 10px;border-radius:999px;font-weight:800;font-size:10.5px;min-width:90px;text-align:center}
+.btn-logout{background:var(--red);color:#fff;border:none;padding:8px 14px;border-radius:999px;font-weight:700;font-size:12px;cursor:pointer;min-height:34px}
+.wrap{max-width:760px;margin:12px auto;padding:0 12px}
+.box{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.06);border:1px solid #eef0f3;border-left:4px solid var(--navy);margin-bottom:12px}
+.title{font-size:17px;font-weight:800;color:var(--navy);margin:0 0 6px}
+.meta{font-size:12.5px;color:var(--muted);line-height:1.5}
+label{font-size:12px;font-weight:700;color:var(--navy);display:block;margin:10px 0 4px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit;min-height:46px;background:#fff}
+.btn{padding:12px 16px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;min-height:46px;color:#fff;width:100%}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.b-blue{background:linear-gradient(135deg,#1976d2,#42a5f5)}.b-green{background:linear-gradient(135deg,#16a34a,#22c55e)}.b-purple{background:linear-gradient(135deg,#7c3aed,#8b5cf6)}.b-navy{background:linear-gradient(135deg,#0b2a5c,#1e4a8f)}.b-grey{background:#e5e7eb;color:#475569}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btnrow .btn{flex:1;min-width:120px}
+.msg{padding:12px;border-radius:12px;font-weight:700;font-size:13.5px;margin:10px 0;display:none;line-height:1.45}
+.msg.show{display:block}.msg.ok{background:#dcfce7;color:#166534}.msg.err{background:#fee2e2;color:#991b1b}.msg.load{background:#e0f2fe;color:#075985}.msg.warn{background:#fff7ed;color:#9a3412}
+.lock{background:#fff7ed;border:1px solid #ffcc80;border-radius:16px;padding:18px;text-align:center;color:#9a3412;font-weight:700;line-height:1.5}
+.lock b{display:block;font-size:30px;margin-bottom:6px}
+.empty-note{text-align:center;color:var(--muted);padding:22px 10px;font-weight:700}
+.school{display:flex;gap:12px;align-items:center}
+.school img{width:56px;height:56px;border-radius:12px;object-fit:contain;background:#fff;border:1px solid var(--line)}
+.school b{font-size:16px;color:var(--navy)}
+.drow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.drow:last-child{border-bottom:none}.drow span{color:var(--muted);font-weight:700}.drow b{text-align:right}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.go{background:#fff;border-radius:16px;border:1px solid #eef0f3;box-shadow:0 4px 18px rgba(0,0,0,.06);padding:14px 10px;text-align:center;font-weight:800;color:var(--navy);cursor:pointer;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:4px solid var(--blue)}
+.go .ic{font-size:28px}.go small{font-size:11px;color:var(--muted);font-weight:700}
+.go.closed{opacity:.6;border-left-color:#f59e0b}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px}
+.chip{flex-shrink:0;border:1px solid #cbd5e1;border-radius:999px;padding:0 14px;min-height:40px;font-weight:700;font-size:13px;color:var(--navy);background:#fff;cursor:pointer}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.item{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.06);border:1px solid #eef0f3;border-left:5px solid var(--blue);margin-bottom:10px}
+.item h4{margin:0 0 6px;color:var(--navy);font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.item h4 small{color:var(--muted);font-weight:700;font-size:11.5px;white-space:nowrap}
+.line{font-size:13.5px;line-height:1.5;margin:3px 0}.line span{color:var(--muted);font-weight:700}
+.hw{background:#fff7ed;border-left:3px solid var(--orange);padding:6px 8px;border-radius:6px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}
+.stat b{display:block;font-size:19px;color:var(--navy)}.stat span{font-size:10.5px;color:var(--muted);font-weight:700}
+.dchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.dchip{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:#fee2e2;color:#991b1b}.dchip.l{background:#fff3e0;color:#9a3412}.dchip.u{background:#ede9fe;color:#5b21b6}
+.tag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;background:#e0f2fe;color:#075985}.tag.up{background:#fff3e0;color:#9a3412}
+.score{font-size:22px;font-weight:900;color:var(--navy)}.score small{font-size:13px;color:var(--muted)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:100;background:#fff;border-top:1px solid var(--line);display:flex;gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+@media(min-width:761px){.tabs{left:50%;transform:translateX(-50%);right:auto;width:min(620px,calc(100% - 24px));bottom:12px;border-radius:999px;border:1px solid var(--line);padding:6px}}
+.tabBtn{flex:1;padding:7px 2px 6px;border:none;border-radius:12px;cursor:pointer;background:transparent;font-weight:700;font-size:10.5px;color:#64748b;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;line-height:1.1}
+.tabBtn .tabIco{font-size:20px;line-height:1}.tabBtn.active{background:#e3f2fd;color:var(--blue)}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+#login .card{background:#fff;border-radius:20px;padding:22px;max-width:380px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.1);border-top:5px solid var(--navy)}
+#login h1{margin:8px 0 2px;font-size:20px;color:var(--navy);text-align:center}
+#login .sch{text-align:center;color:var(--muted);font-weight:700;font-size:13px;margin-bottom:8px}
+#login img{display:block;margin:0 auto;max-width:90px;max-height:90px;border-radius:12px}
+
+@media print{
+  body{background:#fff;padding:0}
+  body>.top,body>.tabs,.noprint,#screens>.scr:not(#s_result),#resList,#resMsg,#cardBar{display:none!important}
+  .wrap{margin:0;padding:0;max-width:none}
+}
+.hcard{background:#fff;border-radius:16px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.06);border:1px solid #eef0f3;margin-bottom:12px}
+.hcard h3{margin:0 0 8px;font-size:15px}
+.hrow{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-top:1px solid #f1f5f9;font-size:13.5px;line-height:1.4}
+.hrow:first-of-type{border-top:none}.hrow .ic{flex-shrink:0;width:22px;text-align:center}
+.hbig{font-size:26px;font-weight:900;color:#0b2a5c;line-height:1.1}
+.hmut{color:#64748b;font-size:12.5px;font-weight:600}
+.hchip{display:inline-block;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;margin:3px 4px 0 0}
+.hwarn{color:#9a3412}.hgood{color:#166534}.herr{color:#b91c1c}
+</style><style>
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cl{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cl label{margin:0;display:flex;align-items:center;gap:6px;border:1px solid #cbd5e1;border-radius:999px;padding:0 12px;min-height:38px;font-size:13px;background:#fff;font-weight:600}
+.cl input{width:auto;min-height:0}
+textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px;font-family:inherit;min-height:70px}
+.ty{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;color:#fff;white-space:nowrap}
+.t-HOLIDAY{background:#c62828}.t-EXAM{background:#7c3aed}.t-PROGRAM,.t-PTM{background:#1976d2}.t-OTHER{background:#64748b}
+.item.cancelled{border-left-color:#94a3b8!important}.item.cancelled>*:not(.btnrow){opacity:.55}.item.cancelled h4 span.tt{text-decoration:line-through}
+.mh{font-weight:900;color:var(--navy);font-size:14px;margin:14px 2px 6px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:12px;font-weight:700;color:#475569}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+pre.res{white-space:pre-wrap;font-family:inherit;margin:0}
+.fl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.sec{display:none}.sec.on{display:block}
+.card2{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px;position:relative}
+.card2 h5{margin:0 0 4px;color:var(--navy);font-size:14px}
+.x{position:absolute;right:8px;top:8px;background:#fee2e2;color:#991b1b;border:none;border-radius:8px;min-height:36px;min-width:36px;font-weight:900;cursor:pointer}
+.help{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:3px}
+.probs{background:#fff7ed;border:1px solid #ffcc80;border-radius:12px;padding:10px;margin-bottom:10px;font-size:13px;color:#9a3412;font-weight:700;line-height:1.5}
+.amt{width:100%;border-collapse:collapse;font-size:13px}.amt th,.amt td{border:1px solid var(--line);padding:4px;text-align:center}
+.amt th{background:#eef2f7;color:var(--navy);position:sticky;top:0}.amt td:first-child,.amt th:first-child{text-align:left;font-weight:700;min-width:110px}
+.amt input{min-height:40px;padding:6px;font-size:15px;text-align:right}
+.scroll{overflow-x:auto}
+.mo{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}.mo label{margin:0;border:1px solid #cbd5e1;border-radius:999px;padding:0 10px;min-height:36px;display:flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;background:#fff}.mo input{width:auto;min-height:0}
+h3.g{margin:14px 0 4px;color:var(--navy);font-size:14px;border-bottom:2px solid var(--line);padding-bottom:3px}
+
+.pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;background:#e0f2fe;color:#075985;white-space:nowrap}
+.pill.n{background:#dcfce7;color:#166534}.pill.o{background:#e5e7eb;color:#374151}.pill.d{background:#fee2e2;color:#991b1b}.pill.g{background:#dcfce7;color:#166534}
+.srow{background:#fff;border-radius:14px;padding:12px;border:1px solid #eef0f3;border-left:5px solid var(--blue);margin-bottom:8px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.srow b{color:var(--navy)}.srow .l2{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.ft{width:100%;border-collapse:collapse;font-size:12.5px}.ft th,.ft td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:right}.ft th{background:#eef2f7;color:var(--navy);font-size:11.5px}.ft td:first-child,.ft th:first-child,.ft td:nth-child(2),.ft th:nth-child(2){text-align:left}
+.ft tr.tot td{font-weight:900;border-top:2px solid var(--navy)}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.big div{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}.big b{display:block;font-size:18px;color:var(--navy)}.big span{font-size:11px;color:var(--muted);font-weight:700}
+.chk{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:14px;font-weight:700;color:var(--navy)}.chk input{width:22px;height:22px;min-height:0}
+.msg.load::before{content:"";display:inline-block;width:14px;height:14px;border:3px solid #075985;border-top-color:transparent;border-radius:50%;margin-right:8px;vertical-align:-2px;animation:spn 1s linear infinite}@keyframes spn{to{transform:rotate(360deg)}}
+
+.mini{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;font-size:13px}
+.row3{display:grid;grid-template-columns:auto 1fr 110px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.row3 input[type=checkbox]{width:24px;height:24px;min-height:0}.row3 .amt{min-height:42px;padding:6px;text-align:right;font-size:15px}
+.row3 small{display:block;color:var(--muted);font-weight:600;font-size:11px}
+.tot{position:sticky;bottom:78px;background:#0b2a5c;color:#fff;border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:18px;margin:10px 0;z-index:20}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big2 .go{min-height:104px}
+.ok-box{background:#dcfce7;border:2px solid #16a34a;border-radius:16px;padding:16px;text-align:center}
+.ok-box b{display:block;font-size:22px;color:#166534;margin:4px 0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}.modal.on{display:flex}
+.modal .mb{background:#fff;border-radius:16px;padding:16px;max-width:380px;width:100%}
+</style><script src="config.js"></script></head>
+<body>
+<div class="top">
+  <div class="top-left">
+    <div class="avatar" id="avatarLetter">A</div>
+    <div style="min-width:0"><div class="welcome" id="wName">Welcome</div><div class="sub" id="wSub">Username: -</div></div>
+  </div>
+  <div class="top-right">
+    <div class="badge" id="roleBadge">ADMIN</div>
+    <button class="btn-logout" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+<div class="wrap">
+ <div class="msg" id="gMsg"></div>
+ <div id="paneHome" class="pane">
+  <div class="box"><div class="title" id="hi">Office</div><div class="meta" id="sub">Loading your permissions... please wait</div><div id="adminBack" style="display:none;margin-top:10px"><button class="btn-gray" onclick="goBack()" style="min-height:46px;width:100%;border:none;border-radius:12px;font-weight:800;background:#e5e7eb;color:#111827;cursor:pointer">⬅️ Back to Admin</button></div></div>
+  <div id="today"></div>
+  <div id="homeCards"></div>
+  <div id="homeEmpty"></div>
+ </div>
+ <div id="paneFees" class="pane" style="display:none"><div class="box"><div class="title">💰 Fees</div><div class="meta">Collect fees and manage fee records.</div></div><div class="big2" id="cardsFees"></div></div>
+ <div id="paneMore" class="pane" style="display:none"><div class="box"><div class="title">⋯ More</div><div class="meta">School office pages you can use.</div></div><div class="big2" id="cardsMore"></div></div>
+</div>
+<div class="tabs" id="tabsBar" style="display:none"></div><script>
+const WEB_URL = (window.CVSE_CONFIG && window.CVSE_CONFIG.WEB_URL) || ""; if(!WEB_URL){ document.addEventListener("DOMContentLoaded", function(){ var d=document.createElement("div"); d.style.cssText="position:fixed;left:12px;right:12px;top:12px;z-index:99999;background:#fee2e2;border:2px solid #c62828;color:#7f1d1d;border-radius:12px;padding:14px;font:700 14px Arial"; d.textContent="Setup file (config.js) is missing or empty. Reload the page. If it still shows, tell your admin."; document.body.appendChild(d); }); }
+function ls(k){ try{ return localStorage.getItem(k) || ''; }catch(e){ return ''; } }
+var USER = {username:ls('cvse_username'), name:ls('cvse_name'), role:ls('cvse_role')};
+if(!ls('cvse_token') || !USER.username || USER.role !== 'admin' && USER.role !== 'accountant'){ window.location.href = 'index.html'; }
+function authCheck(j){ if(j && j.code === 'AUTH'){ try{ localStorage.clear(); }catch(e){} alert('Session expired. Please login again.'); window.location.href = 'index.html'; } }
+async function apiGet(action, params){
+  let url = WEB_URL + '?action=' + action + '&token=' + encodeURIComponent(ls('cvse_token'));
+  for(let k in (params || {})) url += '&' + k + '=' + encodeURIComponent(params[k]);
+  let r = await fetch(url); let j = await r.json(); authCheck(j); return j;
+}
+async function apiPost(action, payload){
+  let r = await fetch(WEB_URL, {method:'POST', body:JSON.stringify(Object.assign({action:action, token:ls('cvse_token')}, payload || {}))});
+  let j = await r.json(); authCheck(j); return j;
+}
+function esc(s){ return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function $(id){ return document.getElementById(id); }
+function show(el, text, kind){ el.className = 'msg show ' + kind; el.innerText = text; }
+function hide(el){ el.className = 'msg'; }
+function goBack(){ window.location.href = 'admin.html'; }
+function doLogout(){ try{ localStorage.clear(); }catch(e){} window.location.href = 'index.html'; }
+function maskD(el){
+  let d = el.value.replace(/[^0-9]/g, '').substring(0, 8), o = d;
+  if(d.length > 4) o = d.substring(0, 2) + '-' + d.substring(2, 4) + '-' + d.substring(4);
+  else if(d.length > 2) o = d.substring(0, 2) + '-' + d.substring(2);
+  el.value = o;
+}
+$('wName').innerText = 'Welcome, ' + (USER.name || 'User'); $('wSub').innerText = 'Username: ' + USER.username;
+$('roleBadge').innerText = USER.role === 'accountant' ? 'ACCOUNTANT' : 'ADMIN';
+$('avatarLetter').innerText = String(USER.name || 'U').trim().charAt(0).toUpperCase();
+
+
+
+var FEEKEYS = 'fees-';
+var CARDS = [
+ ['COLLECT','💵','Collect Fees','Take payment and print the receipt','fees-collect.html'],
+ ['COLLECT','🧾','Receipts','Day book, reprint, cancel','fees-receipts.html'],
+ ['STUDENTS','👨‍👩‍👧','Student Fee Setup','Concessions, bus, siblings, previous dues','fees-students.html'],
+ ['OPENING','✅','Already Paid','Start the app in the middle of a session','fees-opening.html'],
+ ['SETTINGS','⚙️','Fees Settings','Heads, amounts, due dates, receipt look','fees-settings.html'],
+ ['REPORTS','📊','Fee Reports','Daily, head-wise, dues, defaulters, ledger','fees-reports.html'],
+ ['STUDENTDB','🎓','Students','Add and edit student details','students.html'],
+ ['STUDPW','🔑','Student Passwords','Reset a student\'s app password','student-access.html'],
+ ['ATTENDANCE','✅','Attendance','Mark and see attendance','daily.html?tab=att'],
+ ['ATTENDANCE','📈','Monthly Performance','Attendance and test report of a class','performance.html'],
+ ['DAILY','🗂️','Daily Updates','Lessons, homework and notices','daily.html'],
+ ['TIMETABLE','🗓️','Timetable','Build and print the timetable','timetable-builder.html'],
+ ['CALENDAR','📅','School Calendar','Holidays, exams, programs, meetings','events.html'] ];
+function rs(n){ return '₹' + (Math.round((Number(n)||0) * 100) / 100).toLocaleString('en-IN'); }
+
+function hMoney(n,d){ n=Number(n)||0; return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:d||0,maximumFractionDigits:d||0}); }
+function withTimeout(p, ms){ return new Promise(function(res, rej){ var t = setTimeout(function(){ rej(new Error('TIMEOUT')); }, ms); p.then(function(v){ clearTimeout(t); res(v); }, function(e){ clearTimeout(t); rej(e); }); }); }
+function hErr(h,k){ return h.errors && h.errors[k] ? '<div class="hrow"><span class="ic">⚠️</span><span class="herr">Could not load this card: '+esc(h.errors[k])+'</span></div>' : ''; }
+async function loadHome(me){
+  try{
+    let h = await withTimeout(apiGet('homesummary',{}), 60000);
+    if(!h.success){
+      if(me.privileges.indexOf('COLLECT') > -1){ let t = await apiGet('feereceipts',{}); if(t.success){ let s = t.summary; $('today').innerHTML = '<div class="box" style="border-left-color:var(--green)"><div class="title">Today’s collection</div><div class="big"><div><b>'+rs(s.total)+'</b><span>'+s.count+' receipts</span></div><div><b>'+Object.keys(s.byMode).map(k=>esc(k)+' '+rs(s.byMode[k])).join('<br>')+(Object.keys(s.byMode).length?'':'—')+'</b><span>By payment mode</span></div></div></div>'; } }
+      return;
+    }
+    let out = '';
+    if(h.noSchool) out += '<div class="box" style="background:#fff7ed;border:1.5px solid #fdba74;font-weight:700">🏖️ No school today: '+esc(h.noSchool)+'</div>';
+    if(h.collection){
+      let c = h.collection, d = c.decimals || 0, modes = Object.keys(c.byMode || {}).map(k=>'<span class="hchip">'+esc(k)+' '+hMoney(c.byMode[k],d)+'</span>').join('');
+      out += '<div class="hcard"><h3>💵 Today’s collection</h3><div class="hbig">'+hMoney(c.total,d)+'</div><div class="hmut">'+c.count+' receipt'+(c.count===1?'':'s')+(c.cancelled?' · '+c.cancelled+' cancelled':'')+'</div>'+(modes?'<div>'+modes+'</div>':'')+'</div>';
+    } else if(h.errors && h.errors.collection) out += '<div class="hcard"><h3>💵 Today’s collection</h3>'+hErr(h,'collection')+'</div>';
+    let a = h.attention, rows = '';
+    if(a){
+      if(a.attendance) rows += a.attendance.skipped ? '<div class="hrow"><span class="ic">✅</span><span class="hmut">Attendance: not needed ('+esc(a.attendance.skipped)+')</span></div>' : (a.attendance.missing.length ? '<div class="hrow"><span class="ic">⚠️</span><span class="hwarn"><b>Attendance not marked:</b> '+a.attendance.missing.map(esc).join(', ')+'</span></div>' : '<div class="hrow"><span class="ic">✅</span><span class="hgood">Attendance marked for all '+a.attendance.total+' classes</span></div>');
+      if(a.daily) rows += a.daily.skipped ? '<div class="hrow"><span class="ic">✅</span><span class="hmut">Daily update: not needed ('+esc(a.daily.skipped)+')</span></div>' : (a.daily.missing.length ? '<div class="hrow"><span class="ic">⚠️</span><span class="hwarn"><b>Daily update not published:</b> '+a.daily.missing.map(esc).join(', ')+'</span></div>' : '<div class="hrow"><span class="ic">✅</span><span class="hgood">Daily update published for all '+a.daily.total+' classes</span></div>');
+      if(a.locked && a.locked.on) rows += '<div class="hrow" id="homeLockRow"><span class="ic">🔒</span><span class="hmut">Checking students locked for unpaid fees...</span></div>';
+    }
+    rows += hErr(h,'attention');
+    if(rows) out += '<div class="hcard"><h3>📌 Needs attention</h3>'+rows+'</div>';
+    if(h.birthdays){
+      let b = h.birthdays, list = b.list || [], bh = '';
+      if(b.missingColumn) bh = '<div class="hrow"><span class="ic">ℹ️</span><span class="hmut">Add a DOB column in the Students sheet to see birthdays.</span></div>';
+      else if(!list.length) bh = '<div class="hrow"><span class="ic">🎂</span><span class="hmut">No birthdays in the next '+(b.withinDays||7)+' days.</span></div>';
+      else bh = list.map(x=>'<div class="hrow"><span class="ic">'+(x.days===0?'🎉':'🎂')+'</span><span><b>'+esc(x.name)+'</b> · Class '+esc(x.cls)+'<br><span class="hmut">'+(x.days===0?'Today':(x.days===1?'Tomorrow':'In '+x.days+' days, '+esc(x.date)))+' · turns '+x.turns+'</span></span></div>').join('')+(b.more?'<div class="hmut">and more...</div>':'');
+      out += '<div class="hcard"><h3>🎂 Birthdays</h3>'+bh+'</div>';
+    } else if(h.errors && h.errors.birthdays) out += '<div class="hcard"><h3>🎂 Birthdays</h3>'+hErr(h,'birthdays')+'</div>';
+    if(h.events){
+      out += '<div class="hcard"><h3>📅 Coming up</h3>'+(h.events.length ? h.events.map(e=>'<div class="hrow"><span class="ic">📅</span><span><b>'+esc(e.title)+'</b><br><span class="hmut">'+(e.today?'On now · ':'')+esc(e.date)+(e.endDate&&e.endDate!==e.date?' to '+esc(e.endDate):'')+(e.time?' · '+esc(e.time):'')+(e.classes?' · '+esc(e.classes):'')+'</span></span></div>').join('') : '<div class="hrow"><span class="ic">📅</span><span class="hmut">Nothing in the next 14 days.</span></div>')+'</div>';
+    } else if(h.errors && h.errors.eventsList) out += '<div class="hcard"><h3>📅 Coming up</h3>'+hErr(h,'eventsList')+'</div>';
+    $('homeCards').innerHTML = out;
+    fillLocked();
+  }catch(e){ /* the cards above still work; the home cards are optional */ }
+}
+async function fillLocked(){
+  let el = document.getElementById('homeLockRow'); if(!el) return;
+  try{
+    let r = await withTimeout(apiGet('homelocked',{}), 90000);
+    if(!r || !r.success){ el.innerHTML = '<span class="ic">⚠️</span><span class="hmut">Could not count the locked students.</span>'; return; }
+    if(!r.on){ el.remove(); return; }
+    el.innerHTML = '<span class="ic">🔒</span><span><b>'+r.locked+'</b> student'+(r.locked===1?'':'s')+' locked out of the Result tab for unpaid fees'+(r.unlocked?' · '+r.unlocked+' unlocked for some days':'')+'</span>';
+  }catch(e){ el.innerHTML = '<span class="ic">⚠️</span><span class="hmut">'+(e && e.message==='TIMEOUT' ? 'Counting is taking too long.' : 'Could not count the locked students.')+'</span>'; }
+}
+var TABS_SHOWN = [];
+function ssGet(){ try{ return sessionStorage.getItem('acc_tab') || ''; }catch(e){ return ''; } }
+function ssSet(v){ try{ sessionStorage.setItem('acc_tab', v); }catch(e){} }
+function cardHtml(c){ return '<div class="go'+(c[4]?'':' closed')+'" onclick="'+(c[4]?'window.location.href=\''+c[4]+'\'':'')+'"><span class="ic">'+c[1]+'</span>'+esc(c[2])+'<small>'+esc(c[3])+'</small></div>'; }
+function openPane(k){
+  if(TABS_SHOWN.indexOf(k) < 0) k = 'home';
+  ['home','fees','more'].forEach(function(n){
+    var p = $('pane'+n.charAt(0).toUpperCase()+n.slice(1)); if(p) p.style.display = (n===k ? 'block' : 'none');
+    var b = $('tab_'+n); if(b) b.classList.toggle('active', n===k);
+  });
+  ssSet(k); window.scrollTo(0,0);
+}
+function buildTabs(feeCards, moreCards){
+  TABS_SHOWN = ['home'];
+  var defs = {home:['🏠','Home'], fees:['💰','Fees'], more:['⋯','More']};
+  if(feeCards.length) TABS_SHOWN.push('fees');
+  if(moreCards.length) TABS_SHOWN.push('more');
+  var bar = $('tabsBar');
+  if(TABS_SHOWN.length < 2){ bar.style.display = 'none'; document.body.style.paddingBottom = '24px'; return; }
+  bar.innerHTML = TABS_SHOWN.map(function(n){ return '<button class="tabBtn" id="tab_'+n+'" onclick="openPane(\''+n+'\')"><span class="tabIco">'+defs[n][0]+'</span>'+defs[n][1]+'</button>'; }).join('');
+  bar.style.display = 'flex'; document.body.style.paddingBottom = '96px';
+}
+async function init(){
+  show($('gMsg'),'Loading... please wait','load');
+  try{
+    let r = await apiGet('feeme',{});
+    if(!r.success){ show($('gMsg'),'❌ '+(r.error||'Could not load.'),'err'); return; }
+    hide($('gMsg'));
+    $('hi').innerText = (r.school || 'School') + ' — Office'; $('sub').innerText = 'Session ' + (r.session || '-');
+    if(USER.role === 'admin') $('adminBack').style.display = 'block';
+    let mine = CARDS.filter(c=>r.privileges.indexOf(c[0]) > -1);
+    let feeCards = mine.filter(c=>String(c[4]||'').indexOf('fees-') === 0), moreCards = mine.filter(c=>String(c[4]||'').indexOf('fees-') !== 0);
+    $('cardsFees').innerHTML = feeCards.map(cardHtml).join('');
+    $('cardsMore').innerHTML = moreCards.map(cardHtml).join('');
+    if(!mine.length) $('homeEmpty').innerHTML = '<div class="box empty-note">No pages are allowed for you yet. Please ask the admin.</div>';
+    buildTabs(feeCards, moreCards);
+    openPane(ssGet() || 'home');
+    loadHome(r);
+  }catch(e){ show($('gMsg'),'❌ Could not connect. Check internet and try again.','err'); }
+}
+init();
+</script>
+</body></html>
